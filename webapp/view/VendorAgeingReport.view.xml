@@ -1,0 +1,370 @@
+<!-- <mvc:View controllerName="com.bgl.app.vendorageing2.controller.VendorAgeingReport"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m">
+    <Page id="page" title="{i18n>title}">
+    </Page>
+</mvc:View> -->
+
+
+<mvc:View
+    controllerName="com.bgl.app.vendorageing2.controller.VendorAgeingReport"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:core="sap.ui.core"
+    xmlns="sap.m"
+    xmlns:f="sap.f"
+    xmlns:fb="sap.ui.comp.filterbar"
+    xmlns:smartTable="sap.ui.comp.smarttable"
+    xmlns:svm="sap.ui.comp.smartvariants"
+>
+    <f:DynamicPage
+        id="pageId"
+        headerExpanded="{/headerExpanded}"
+    >
+        <f:title>
+            <f:DynamicPageTitle>
+                <f:heading>
+                    <svm:SmartVariantManagement
+                        id="svm"
+                        showExecuteOnSelection="true"
+                    />
+                </f:heading>
+                <f:expandedContent>
+                    <Label
+                        id="expandedLabel"
+                        text="No filters active"
+                    />
+                </f:expandedContent>
+                <f:snappedContent>
+                    <Label
+                        id="snappedLabel"
+                        text="No filters active"
+                    />
+                </f:snappedContent>
+            </f:DynamicPageTitle>
+        </f:title>
+
+        <f:header>
+            <f:DynamicPageHeader>
+                <f:content>
+                    <fb:FilterBar
+                        id="filterbar"
+                        persistencyKey="myPersKey"
+                        useToolbar="false"
+                        search=".onSearch"
+                        filterChange=".onFilterChange"
+                        afterVariantLoad=".onAfterVariantLoad"
+                    >
+                        <fb:filterGroupItems>
+                            <fb:FilterGroupItem
+                                name="companyCode"
+                                label="Company Code"
+                                groupName="Group1"
+                                visibleInFilterBar="true"
+                            >
+                                <fb:control>
+                                    <Input
+                                        id="idComCode"
+                                        required="true"
+                                        value="1000"
+                                        editable="false"
+                                    />
+                                </fb:control>
+                            </fb:FilterGroupItem>
+                            <fb:FilterGroupItem
+                                name="pa_data_from"
+                                label="Select Date"
+                                groupName="Group1"
+                                visibleInFilterBar="true"
+                            >
+                                <fb:control>
+                                    <DatePicker
+                                        required="true"
+                                        id="idDate"
+                                        displayFormat="dd/MM/yyyy"
+                                        valueFormat="yyyy-MM-dd"
+                                    />
+                                </fb:control>
+                            </fb:FilterGroupItem>
+
+                            <fb:FilterGroupItem
+                                name="Business Place"
+                                label="Business Place"
+                                groupName="Group1"
+                                visibleInFilterBar="true"
+                            >
+                                <fb:control>
+                                    <Input
+                                        id="inputBusinessPlace"
+                                        name="Business Place"
+                                        type="Text"
+                                        placeholder="Select Business Place"
+                                        showValueHelp="true"
+                                        showClearIcon="true"
+                                        valueHelpRequest="onOpenBusinessPlaceDialog"
+                                        value=""
+                                        liveChange="onBusinessPlaceClear"
+                                        change=""
+                                        required="true"
+                                    />
+                                </fb:control>
+                            </fb:FilterGroupItem>
+
+                            <fb:FilterGroupItem
+                                name="Supplier"
+                                label="Supplier"
+                                groupName="Group1"
+                                visibleInFilterBar="false"
+                            >
+                                <fb:control>
+                                    <Input
+                                        id="inputSupplier"
+                                        name="Supplier"
+                                        type="Text"
+                                        placeholder="Select Supplier"
+                                        showValueHelp="true"
+                                        showClearIcon="true"
+                                        valueHelpRequest="onOpenSupplierDialog"
+                                        value=""
+                                        liveChange="onSupplierClear"
+                                        change=""
+                                        required="false"
+                                    />
+                                </fb:control>
+                            </fb:FilterGroupItem>
+                        </fb:filterGroupItems>
+                    </fb:FilterBar>
+                </f:content>
+            </f:DynamicPageHeader>
+        </f:header>
+
+        <f:content>
+            <VBox>
+                <OverflowToolbar>
+                    <content>
+                        <Title
+                            text="List of Vendors"
+                            level="H2"
+                        />
+                        <ToolbarSpacer />
+                        <Button
+                            icon="sap-icon://excel-attachment"
+                            press="onExport"
+                            visible="true"
+                        />
+                    </content>
+                </OverflowToolbar>
+                <!-- Fixed Header Toolbar (Not inside ScrollContainer) -->
+
+                <ScrollContainer
+                    width="100%"
+                    height="auto"
+                    horizontal="true"
+                    vertical="false"
+                >
+                    <Table
+                        class="tableWrapper"
+                        id="table"
+                        items="{
+						path: 'TableDataModel>/'
+					}"
+                        fixedLayout="true"
+                        sticky="ColumnHeaders"
+                        growing="true"
+                        growingScrollToLoad="false"
+                        growingThreshold="20"
+                        mode="None"
+                    >
+                        <columns>
+                            <Column
+                                width="10rem"
+                                minScreenWidth="Tablet"
+                                demandPopin="true"
+                                hAlign="Begin"
+                                visible="true"
+                            >
+                                <Text text="Vendor Code" />
+                            </Column>
+                            <Column
+                                width="10rem"
+                                demandPopin="true"
+                                hAlign="Begin"
+                                visible="true"
+                            >
+                                <Text text="Vendor Name" />
+                            </Column>
+                            <Column
+                                width="10rem"
+                                minScreenWidth="Tablet"
+                                demandPopin="true"
+                                hAlign="Begin"
+                                visible="true"
+                            >
+                                <Text text="Net O/S Vendor" />
+                            </Column>
+                            <Column width="10rem">
+                                <Text text="Gross O/S Vendor " />
+                            </Column>
+                            <Column
+                                width="10rem"
+                                minScreenWidth="Tablet"
+                                demandPopin="true"
+                                hAlign="Begin"
+                                visible="true"
+                            >
+                                <Text text="0 TO 30 DAYS" />
+                            </Column>
+                            <Column
+                                width="10rem"
+                                minScreenWidth="Tablet"
+                                demandPopin="true"
+                                hAlign="Begin"
+                                visible="true"
+                            >
+                                <Text text="30 TO 60 DAYS" />
+                            </Column>
+                            <Column
+                                width="10rem"
+                                minScreenWidth="Tablet"
+                                demandPopin="true"
+                                hAlign="Begin"
+                                visible="true"
+                            >
+                                <Text text="60 TO 90 DAYS" />
+                            </Column>
+                            <Column
+                                width="10rem"
+                                minScreenWidth="Tablet"
+                                demandPopin="true"
+                                hAlign="Begin"
+                                visible="true"
+                            >
+                                <Text text="365 DAYS" />
+                            </Column>
+                            <Column
+                                width="10rem"
+                                minScreenWidth="Tablet"
+                                demandPopin="true"
+                                hAlign="Begin"
+                                visible="true"
+                            >
+                                <Text text="MORE THAN 365 DAYS" />
+                            </Column>
+                            <Column
+                                width="10rem"
+                                minScreenWidth="Tablet"
+                                demandPopin="true"
+                                hAlign="Begin"
+                                visible="true"
+                            >
+                                <Text text="MORE THAN 730 DAYS" />
+                            </Column>
+                            <Column
+                                width="10rem"
+                                minScreenWidth="Tablet"
+                                demandPopin="true"
+                                hAlign="Begin"
+                                visible="true"
+                            >
+                                <Text text="Accounting Group" />
+                            </Column>
+                            <Column
+                                width="10rem"
+                                minScreenWidth="Tablet"
+                                demandPopin="true"
+                                hAlign="Begin"
+                                visible="true"
+                            >
+                                <Text text="Accounting Group Des" />
+                            </Column>
+                            <Column
+                                width="10rem"
+                                minScreenWidth="Tablet"
+                                demandPopin="true"
+                                hAlign="Begin"
+                                visible="true"
+                            >
+                                <Text text="Reconciliation Account" />
+                            </Column>
+                            <Column
+                                width="10rem"
+                                minScreenWidth="Tablet"
+                                demandPopin="true"
+                                hAlign="Begin"
+                                visible="true"
+                            >
+                                <Text text="SPL GL A" />
+                            </Column>
+                            <Column
+                                width="10rem"
+                                minScreenWidth="Tablet"
+                                demandPopin="true"
+                                hAlign="Begin"
+                                visible="true"
+                            >
+                                <Text text="SPL GL D" />
+                            </Column>
+                            <Column
+                                width="10rem"
+                                minScreenWidth="Tablet"
+                                demandPopin="true"
+                                hAlign="Begin"
+                                visible="true"
+                            >
+                                <Text text="SPL GL G" />
+                            </Column>
+                            <Column
+                                width="10rem"
+                                minScreenWidth="Tablet"
+                                demandPopin="true"
+                                hAlign="Begin"
+                                visible="true"
+                            >
+                                <Text text="SPL GL H" />
+                            </Column>
+                        </columns>
+
+                        <items>
+                            <ColumnListItem vAlign="Middle">
+                                <cells>
+                                    <Text text="{TableDataModel>VendorCode}" />
+                                    <Text text="{TableDataModel>VendorName}" />
+                                    <Text
+                                        text="{TableDataModel>Net_OS_Vendor}"
+                                    />
+                                    <Text
+                                        text="{TableDataModel>Gross_OS_Vendor}"
+                                    />
+                                    <Text text="{TableDataModel>Total_0_30}" />
+                                    <Text text="{TableDataModel>Total_31_60}" />
+                                    <Text text="{TableDataModel>Total_61_90}" />
+                                    <Text
+                                        text="{TableDataModel>Total_91_365}"
+                                    />
+                                    <Text
+                                        text="{TableDataModel>Total_366_730}"
+                                    />
+                                    <Text
+                                        text="{TableDataModel>Total_731_plus}"
+                                    />
+                                    <Text
+                                        text="{TableDataModel>SupplierAccountGroup}"
+                                    />
+                                    <Text
+                                        text="{TableDataModel>AccountGroupName}"
+                                    />
+                                    <Text
+                                        text="{TableDataModel>ReconciliationAccount}"
+                                    />
+                                    <Text text="{TableDataModel>SPL_GL_A}" />
+                                    <Text text="{TableDataModel>SPL_GL_D}" />
+                                    <Text text="{TableDataModel>SPL_GL_G}" />
+                                    <Text text="{TableDataModel>SPL_GL_H}" />
+                                </cells>
+                            </ColumnListItem>
+                        </items>
+                    </Table>
+                </ScrollContainer>
+            </VBox>
+        </f:content>
+    </f:DynamicPage>
+</mvc:View>

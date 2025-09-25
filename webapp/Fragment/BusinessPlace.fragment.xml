@@ -1,0 +1,52 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+>
+    <Dialog
+        id="idBusinessPlaceDialog"
+        title="Select Business Place"
+        draggable="true"
+        resizable="true"
+        afterClose=".onCloseBusinessPlaceDialog"
+    >
+        <content>
+            <Toolbar>
+                <SearchField
+                    id="idBusinessPlaceSearchField"
+                    placeholder="Search..."
+                    liveChange=".onSearchBusinessPlace"
+                />
+                <ToolbarSpacer />
+                <CheckBox
+                    id="selectAllCheckBoxBusinessPlace"
+                    text="Select All"
+                    select=".onSelectAllChangeBusinessPlace"
+                />
+            </Toolbar>
+            <List
+                id="idBusinessPlaceList"
+                mode="MultiSelect"
+                items="{businessModel>/}"
+                selectionChange="onBusinessPlaceSelectionChange"
+                growing="true"
+                growingThreshold="2000"
+            >
+                <StandardListItem
+                    title="{businessModel>businessPlace}"
+                    iconDensityAware="false"
+                    iconInset="false"
+                />
+            </List>
+        </content>
+        <buttons>
+            <Button
+                text="OK"
+                press="onSelectBusinessPlace"
+            />
+            <Button
+                text="Cancel"
+                press=".onCloseBusinessPlaceDialog"
+            />
+        </buttons>
+    </Dialog>
+</core:FragmentDefinition>

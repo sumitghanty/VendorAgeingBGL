@@ -1,0 +1,151 @@
+{
+  "_version": "1.73.1",
+  "sap.app": {
+    "id": "com.bgl.app.vendorageing2",
+    "type": "application",
+    "i18n": "i18n/i18n.properties",
+    "applicationVersion": {
+      "version": "0.0.1"
+    },
+    "title": "{{appTitle}}",
+    "description": "{{appDescription}}",
+    "resources": "resources.json",
+    "sourceTemplate": {
+      "id": "@sap/generator-fiori:basic",
+      "version": "1.18.7",
+      "toolsId": "cc5e5830-3234-4357-b837-a29d17b8521f"
+    },
+    "dataSources": {
+      "ZFI_VEND_AGGING_NEW_VAN": {
+        "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='ZFI_VEND_AGGING_NEW_VAN',Version='0001')/$value/",
+        "type": "ODataAnnotation",
+        "settings": {
+          "localUri": "localService/mainService/ZFI_VEND_AGGING_NEW_VAN.xml"
+        }
+      },
+      "mainService": {
+        "uri": "/sap/opu/odata/sap/ZFI_VEND_AGGING_NEW/",
+        "type": "OData",
+        "settings": {
+          "annotations": [
+            "ZFI_VEND_AGGING_NEW_VAN"
+          ],
+          "localUri": "localService/mainService/metadata.xml",
+          "odataVersion": "2.0"
+        }
+      }
+    },
+    "crossNavigation": {
+      "inbounds": {
+        "zso_vendorageingv2-manage": {
+          "semanticObject": "zso_vendorageingv2",
+          "action": "manage",
+          "title": "{{zso_vendorageingv2-manage.flpTitle}}",
+          "subTitle": "{{zso_vendorageingv2-manage.flpSubtitle}}",
+          "signature": {
+            "parameters": {},
+            "additionalParameters": "allowed"
+          }
+        }
+      }
+    }
+  },
+  "sap.ui": {
+    "technology": "UI5",
+    "icons": {
+      "icon": "",
+      "favIcon": "",
+      "phone": "",
+      "phone@2": "",
+      "tablet": "",
+      "tablet@2": ""
+    },
+    "deviceTypes": {
+      "desktop": true,
+      "tablet": true,
+      "phone": true
+    }
+  },
+  "sap.ui5": {
+    "flexEnabled": false,
+    "dependencies": {
+      "minUI5Version": "1.136.8",
+      "libs": {
+        "sap.m": {},
+        "sap.ui.core": {}
+      }
+    },
+    "contentDensities": {
+      "compact": true,
+      "cozy": true
+    },
+    "models": {
+      "i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "settings": {
+          "bundleName": "com.bgl.app.vendorageing2.i18n.i18n"
+        }
+      },
+      "mainService": {
+        "dataSource": "mainService",
+        "preload": true,
+        "settings": {
+          "useBatch": false
+        }
+      },
+      "globalModel": {
+        "type": "sap.ui.model.json.JSONModel"
+      },
+      "TableDataModel": {
+        "type": "sap.ui.model.json.JSONModel"
+      },
+      "businessModel": {
+        "type": "sap.ui.model.json.JSONModel"
+      },
+      "materialModel": {
+        "type": "sap.ui.model.json.JSONModel"
+      }
+    },
+    "resources": {
+      "css": [
+        {
+          "uri": "css/style.css"
+        }
+      ]
+    },
+    "routing": {
+      "config": {
+        "routerClass": "sap.m.routing.Router",
+        "controlAggregation": "pages",
+        "controlId": "app",
+        "transition": "slide",
+        "type": "View",
+        "viewType": "XML",
+        "path": "com.bgl.app.vendorageing2.view",
+        "async": true,
+        "viewPath": "com.bgl.app.vendorageing2.view"
+      },
+      "routes": [
+        {
+          "name": "RouteVendorAgeingReport",
+          "pattern": ":?query:",
+          "target": [
+            "TargetVendorAgeingReport"
+          ]
+        }
+      ],
+      "targets": {
+        "TargetVendorAgeingReport": {
+          "id": "VendorAgeingReport",
+          "name": "VendorAgeingReport"
+        }
+      }
+    },
+    "rootView": {
+      "viewName": "com.bgl.app.vendorageing2.view.App",
+      "type": "XML",
+      "id": "App",
+      "async": true
+    }
+  }
+}
