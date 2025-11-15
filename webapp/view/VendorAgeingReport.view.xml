@@ -231,7 +231,7 @@
                             >
                                 <Text text="60 TO 90 DAYS" />
                             </Column>
-                            <Column
+                            <!-- <Column
                                 width="10rem"
                                 minScreenWidth="Tablet"
                                 demandPopin="true"
@@ -239,6 +239,24 @@
                                 visible="true"
                             >
                                 <Text text="365 DAYS" />
+                            </Column> -->
+                            <Column
+                                width="10rem"
+                                minScreenWidth="Tablet"
+                                demandPopin="true"
+                                hAlign="Begin"
+                                visible="true"
+                            >
+                                <Text text="91 TO 180 DAYS" />
+                            </Column>
+                            <Column
+                                width="10rem"
+                                minScreenWidth="Tablet"
+                                demandPopin="true"
+                                hAlign="Begin"
+                                visible="true"
+                            >
+                                <Text text="181 TO 365 DAYS" />
                             </Column>
                             <Column
                                 width="10rem"
@@ -337,8 +355,14 @@
                                     <Text text="{TableDataModel>Total_0_30}" />
                                     <Text text="{TableDataModel>Total_31_60}" />
                                     <Text text="{TableDataModel>Total_61_90}" />
-                                    <Text
+                                    <!-- <Text
                                         text="{TableDataModel>Total_91_365}"
+                                    /> -->
+                                    <Text
+                                        text="{TableDataModel>Total_91_180}"
+                                    />
+                                    <Text
+                                        text="{TableDataModel>Total_181_365}"
                                     />
                                     <Text
                                         text="{TableDataModel>Total_366_730}"

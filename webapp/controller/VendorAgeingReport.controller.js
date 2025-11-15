@@ -190,9 +190,19 @@ sap.ui.define([
                     property: "Total_61_90",
                     type: EdmType.Decimal
                 },
+                // {
+                //     label: "365 DAYS",
+                //     property: "Total_91_365",
+                //     type: EdmType.Decimal
+                // },
                 {
-                    label: "365 DAYS",
-                    property: "Total_91_365",
+                    label: "91 TO 180 DAYS",
+                    property: "Total_91_180",
+                    type: EdmType.Decimal
+                },
+                {
+                    label: "181 TO 365 DAYS",
+                    property: "Total_181_365",
                     type: EdmType.Decimal
                 },
                 {
@@ -274,6 +284,7 @@ sap.ui.define([
         },
         onSearch: function () {
             var that = this;
+            // this.byId("pageId").setHeaderExpanded(false);
             var aTableFilters = this.oFilterBar.getFilterGroupItems().reduce(function (aResult, oFilterGroupItem) {
                 var oControl = oFilterGroupItem.getControl();
                 if (oControl instanceof sap.m.DatePicker) {

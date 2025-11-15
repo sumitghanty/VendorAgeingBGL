@@ -1,1 +1,42 @@
+/* Enter your custom styles here *//* Enter your custom styles here */
+
 /* Enter your custom styles here */
+.columnHeaderBold {
+    font-weight: bold;
+}
+.boldHeader .sapMColumnHeader .sapMText {
+    font-weight: bold !important;
+}
+.sapMColumnHeader .sapMText {
+    font-size: .875rem;
+    color: #32363a;
+    font-weight: bold;
+}
+.sapUiTableHeaderDataCell .sapMText, .sapMColumnHeader .sapMText {
+    font-weight: bold;
+    font-size: .875rem;
+    color: #32363a;
+}
+.customTableHeight {
+    height: 600px; /* Or any height you need */
+    overflow-y: auto;
+}
+.tableWrapper {
+    height: 430px; /* vertical scroll area */
+    overflow-y: auto;
+    overflow-x: auto;
+  }
+  .sapMLabel {
+    color: #101010;
+    font-size: .875rem;
+    font-family: "72", "72full", Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    display: inline-block;
+    white-space: nowrap;
+    cursor: text;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+
+  
