@@ -86,7 +86,7 @@
                                 </fb:control>
                             </fb:FilterGroupItem>
 
-                            <fb:FilterGroupItem
+                            <!-- <fb:FilterGroupItem
                                 name="Business Place"
                                 label="Business Place"
                                 groupName="Group1"
@@ -107,7 +107,7 @@
                                         required="true"
                                     />
                                 </fb:control>
-                            </fb:FilterGroupItem>
+                            </fb:FilterGroupItem> -->
 
                             <fb:FilterGroupItem
                                 name="Supplier"
@@ -220,7 +220,7 @@
                                 hAlign="Begin"
                                 visible="true"
                             >
-                                <Text text="30 TO 60 DAYS" />
+                                <Text text="31 TO 45 DAYS" />
                             </Column>
                             <Column
                                 width="10rem"
@@ -229,7 +229,16 @@
                                 hAlign="Begin"
                                 visible="true"
                             >
-                                <Text text="60 TO 90 DAYS" />
+                                <Text text="46 TO 60 DAYS" />
+                            </Column>
+                            <Column
+                                width="10rem"
+                                minScreenWidth="Tablet"
+                                demandPopin="true"
+                                hAlign="Begin"
+                                visible="true"
+                            >
+                                <Text text="61 TO 90 DAYS" />
                             </Column>
                             <!-- <Column
                                 width="10rem"
@@ -265,7 +274,7 @@
                                 hAlign="Begin"
                                 visible="true"
                             >
-                                <Text text="MORE THAN 365 DAYS" />
+                                <Text text="1 Year to 2 Years" />
                             </Column>
                             <Column
                                 width="10rem"
@@ -274,7 +283,16 @@
                                 hAlign="Begin"
                                 visible="true"
                             >
-                                <Text text="MORE THAN 730 DAYS" />
+                                <Text text="2 Year to 3 Years" />
+                            </Column>
+                            <Column
+                                width="10rem"
+                                minScreenWidth="Tablet"
+                                demandPopin="true"
+                                hAlign="Begin"
+                                visible="true"
+                            >
+                                <Text text="More than 3 Years" />
                             </Column>
                             <Column
                                 width="10rem"
@@ -354,6 +372,7 @@
                                     />
                                     <Text text="{TableDataModel>Total_0_30}" />
                                     <Text text="{TableDataModel>Total_31_60}" />
+                                    <Text text="{TableDataModel>Total_46_60}" />
                                     <Text text="{TableDataModel>Total_61_90}" />
                                     <!-- <Text
                                         text="{TableDataModel>Total_91_365}"
@@ -366,6 +385,9 @@
                                     />
                                     <Text
                                         text="{TableDataModel>Total_366_730}"
+                                    />
+                                    <Text
+                                        text="{TableDataModel>Total_731_1095}"
                                     />
                                     <Text
                                         text="{TableDataModel>Total_731_plus}"

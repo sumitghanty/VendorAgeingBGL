@@ -60,7 +60,7 @@ sap.ui.define([
             this.oSmartVariantManagement.addPersonalizableControl(oPersInfo);
             this.oSmartVariantManagement.initialise(function () { }, this.oFilterBar);
 
-            this.getBusinessPlaceF4Data();
+            // this.getBusinessPlaceF4Data();
 
 
         },
@@ -180,13 +180,23 @@ sap.ui.define([
                     property: "Total_0_30",
                     type: EdmType.Decimal
                 },
+                // {
+                //     label: "30 TO 60 DAYS",
+                //     property: "Total_31_60",
+                //     type: EdmType.Decimal
+                // },
                 {
-                    label: "30 TO 60 DAYS",
+                    label: "31 TO 45 DAYS",
                     property: "Total_31_60",
                     type: EdmType.Decimal
                 },
                 {
-                    label: "60 TO 90 DAYS",
+                    label: "46 TO 60 DAYS",
+                    property: "Total_46_60",
+                    type: EdmType.Decimal
+                },
+                {
+                    label: "61 TO 90 DAYS",
                     property: "Total_61_90",
                     type: EdmType.Decimal
                 },
@@ -206,12 +216,17 @@ sap.ui.define([
                     type: EdmType.Decimal
                 },
                 {
-                    label: "MORE THAN 365 DAYS",
+                    label: "1 Year to 2 Years",
                     property: "Total_366_730",
                     type: EdmType.Decimal
                 },
                 {
-                    label: "MORE THAN 730 DAYS",
+                    label: "2 Year to 3 Years",
+                    property: "Total_731_1095",
+                    type: EdmType.Decimal
+                },
+                {
+                    label: "More than 3 Years",
                     property: "Total_731_plus",
                     type: EdmType.Decimal
                 },
@@ -366,13 +381,13 @@ sap.ui.define([
             } else {
                 inputDate.setValueState(sap.ui.core.ValueState.None);
             }
-            if (!inputBusinessPlace.getValue()) {
-                inputBusinessPlace.setValueState(sap.ui.core.ValueState.Error);
-                isValid = false;
-                message += 'Business Place , ';
-            } else {
-                inputBusinessPlace.setValueState(sap.ui.core.ValueState.None);
-            }
+            // if (!inputBusinessPlace.getValue()) {
+            //     inputBusinessPlace.setValueState(sap.ui.core.ValueState.Error);
+            //     isValid = false;
+            //     message += 'Business Place , ';
+            // } else {
+            //     inputBusinessPlace.setValueState(sap.ui.core.ValueState.None);
+            // }
 
             if (!isValid) {
                 // Remove the last comma and space from the message
