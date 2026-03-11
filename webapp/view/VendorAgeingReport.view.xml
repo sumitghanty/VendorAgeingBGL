@@ -171,7 +171,7 @@
                         sticky="ColumnHeaders"
                         growing="true"
                         growingScrollToLoad="false"
-                        growingThreshold="20"
+                        growingThreshold="200"
                         mode="None"
                     >
                         <columns>

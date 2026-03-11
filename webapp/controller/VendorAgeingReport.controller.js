@@ -398,26 +398,31 @@ sap.ui.define([
 
             return true;
         },
+
         // getDataFromBackend: function () {
         //     if (!this._validateInputFields()) {
         //         // Validation failed, return without fetching data
         //         return;
         //     }
 
+        //     var that = this;
+
         //     var oGlobalDataModel = this.getOwnerComponent().getModel("globalModel");
         //     var oGlobalModelData = oGlobalDataModel.getData();
-        //     var oNewModel = this.getOwnerComponent().getModel();
+        //     var oNewModel = this.getOwnerComponent().getModel("mainService");
 
-        //     // P_KeyDate must be Edm.Date format (yyyy-MM-dd), no quotes
-        //     var sKeyDate = oGlobalModelData.selectedDate;
+        //     // P_KeyDate must be Edm.DateTimeOffset (OData V2 expects datetime'...' format)
+        //     var sKeyDate = oGlobalModelData.selectedDate;  // yyyy-MM-dd
+        //     var sKeyDateFormatted = "datetime" + sKeyDate + "T00:00:00";
 
-        //     // Build navigation property URL
-        //     var oUrl = "/Zfi_Vendorageing_Main(P_KeyDate=" + sKeyDate + ")/Set";
+        //     // Build entity path with key
+        //     // var sPath = "/Zfi_Vendorageing_Main(P_KeyDate=" + sKeyDateFormatted + ")/Set";
+        //      var sPath = "/Zfi_Vendorageing_Main(P_KeyDate=datetime'" + sKeyDate + "T00:00:00')/Set";
 
-        //     // Dynamic filters
+        //     // Filters
         //     var aFilters = [];
 
-        //     // Company Code filter (single value from input)
+        //     // Company Code filter
         //     var sCompanyCode = this.byId("idComCode").getValue();
         //     if (sCompanyCode) {
         //         aFilters.push(
@@ -425,66 +430,50 @@ sap.ui.define([
         //         );
         //     }
 
-        //     // Business Place filter (multi-value array)
+        //     // Business Place filter (multi-value)
         //     var aBusinessId = oGlobalModelData.selectedBusinessId || [];
-
         //     if (aBusinessId.length > 0) {
         //         var aBusinessFilters = aBusinessId.map(function (busi) {
         //             return new sap.ui.model.Filter("BusinessPlace", sap.ui.model.FilterOperator.EQ, busi);
         //         });
 
-        //         aFilters.push(
-        //             new sap.ui.model.Filter({
-        //                 filters: aBusinessFilters,
-        //                 and: false
-        //             })
-        //         );
+        //         aFilters.push(new sap.ui.model.Filter({
+        //             filters: aBusinessFilters,
+        //             and: false
+        //         }));
         //     }
-
 
         //     sap.ui.core.BusyIndicator.show(0);
 
-        //     // Bind the list
-        //     let oBinding = oNewModel.bindList(oUrl);
+        //     oNewModel.read(sPath, {
+        //         filters: aFilters,
+        //         success: function (oData, response) {
+        //             sap.ui.core.BusyIndicator.hide();
 
-        //     // Apply filters
-        //     oBinding.filter(aFilters);
+        //             var oReturnModel = new sap.ui.model.json.JSONModel();
 
-        //     var that = this;
+        //             if (!oData.results || oData.results.length === 0) {
+        //                 sap.m.MessageBox.warning("No Data Available!");
+        //                 oReturnModel.setData([]);
+        //                 that.oTable.setModel(oReturnModel, "TableDataModel");
+        //                 return;
+        //             }
 
-        //     oBinding.requestContexts(0, 100000).then((aContexts) => {
-        //         sap.ui.core.BusyIndicator.hide();
+        //             console.log("Fetched Data (V2): ", oData.results);
 
-        //         var oReturnModel = new sap.ui.model.json.JSONModel();
-
-        //         if (!aContexts || aContexts.length === 0) {
-        //             sap.m.MessageBox.warning("No Data Available!");
-        //             // 🔹 Clear table data
-        //             oReturnModel.setData([]);
+        //             oReturnModel.setData(oData.results);
         //             that.oTable.setModel(oReturnModel, "TableDataModel");
-        //             return;
+        //         },
+        //         error: function (oError) {
+        //             sap.ui.core.BusyIndicator.hide();
+        //             sap.m.MessageBox.error("An error occurred while fetching data.");
+        //             console.error(oError);
         //         }
-
-        //         var oTableData = [];
-
-        //         aContexts.forEach((oContext) => {
-        //             var oData = oContext.getObject();
-        //             oTableData.push(oData);
-        //         });
-
-        //         // Set data to your table model
-        //         // var oReturnModel = new sap.ui.model.json.JSONModel();
-        //         oReturnModel.setData(oTableData);
-        //         that.oTable.setModel(oReturnModel, "TableDataModel");
-        //     }).catch((err) => {
-        //         sap.ui.core.BusyIndicator.hide();
-        //         sap.m.MessageBox.error("An error occurred while fetching data: " + err.message);
-        //         console.error(err);
         //     });
         // },
         getDataFromBackend: function () {
+
             if (!this._validateInputFields()) {
-                // Validation failed, return without fetching data
                 return;
             }
 
@@ -494,18 +483,13 @@ sap.ui.define([
             var oGlobalModelData = oGlobalDataModel.getData();
             var oNewModel = this.getOwnerComponent().getModel("mainService");
 
-            // P_KeyDate must be Edm.DateTimeOffset (OData V2 expects datetime'...' format)
-            var sKeyDate = oGlobalModelData.selectedDate;  // yyyy-MM-dd
+            var sKeyDate = oGlobalModelData.selectedDate;
             var sKeyDateFormatted = "datetime" + sKeyDate + "T00:00:00";
 
-            // Build entity path with key
-            // var sPath = "/Zfi_Vendorageing_Main(P_KeyDate=" + sKeyDateFormatted + ")/Set";
-             var sPath = "/Zfi_Vendorageing_Main(P_KeyDate=datetime'" + sKeyDate + "T00:00:00')/Set";
+            var sPath = "/Zfi_Vendorageing_Main(P_KeyDate=datetime'" + sKeyDate + "T00:00:00')/Set";
 
-            // Filters
             var aFilters = [];
 
-            // Company Code filter
             var sCompanyCode = this.byId("idComCode").getValue();
             if (sCompanyCode) {
                 aFilters.push(
@@ -513,9 +497,9 @@ sap.ui.define([
                 );
             }
 
-            // Business Place filter (multi-value)
             var aBusinessId = oGlobalModelData.selectedBusinessId || [];
             if (aBusinessId.length > 0) {
+
                 var aBusinessFilters = aBusinessId.map(function (busi) {
                     return new sap.ui.model.Filter("BusinessPlace", sap.ui.model.FilterOperator.EQ, busi);
                 });
@@ -528,33 +512,67 @@ sap.ui.define([
 
             sap.ui.core.BusyIndicator.show(0);
 
-            oNewModel.read(sPath, {
-                filters: aFilters,
-                success: function (oData, response) {
-                    sap.ui.core.BusyIndicator.hide();
+            var aAllResults = [];
 
-                    var oReturnModel = new sap.ui.model.json.JSONModel();
+            function readData(skipToken) {
 
-                    if (!oData.results || oData.results.length === 0) {
-                        sap.m.MessageBox.warning("No Data Available!");
-                        oReturnModel.setData([]);
-                        that.oTable.setModel(oReturnModel, "TableDataModel");
-                        return;
+                var mParameters = {
+                    filters: aFilters,
+
+                    success: function (oData, response) {
+
+                        aAllResults = aAllResults.concat(oData.results);
+
+                        if (oData.__next) {
+
+                            var nextToken = decodeURIComponent(
+                                oData.__next.split("$skiptoken=")[1].split("&")[0]
+                            );
+
+                            readData(nextToken);
+
+                        } else {
+
+                            sap.ui.core.BusyIndicator.hide();
+
+                            var oReturnModel = new sap.ui.model.json.JSONModel();
+
+                            if (aAllResults.length === 0) {
+
+                                sap.m.MessageBox.warning("No Data Available!");
+                                oReturnModel.setData([]);
+                                that.oTable.setModel(oReturnModel, "TableDataModel");
+                                return;
+
+                            }
+
+                            console.log("Fetched Data (V2): ", aAllResults);
+
+                            oReturnModel.setData(aAllResults);
+                            that.oTable.setModel(oReturnModel, "TableDataModel");
+                        }
+                    },
+
+                    error: function (oError) {
+
+                        sap.ui.core.BusyIndicator.hide();
+                        sap.m.MessageBox.error("An error occurred while fetching data.");
+                        console.error(oError);
+
                     }
+                };
 
-                    console.log("Fetched Data (V2): ", oData.results);
-
-                    oReturnModel.setData(oData.results);
-                    that.oTable.setModel(oReturnModel, "TableDataModel");
-                },
-                error: function (oError) {
-                    sap.ui.core.BusyIndicator.hide();
-                    sap.m.MessageBox.error("An error occurred while fetching data.");
-                    console.error(oError);
+                // Add skiptoken only for next calls
+                if (skipToken) {
+                    mParameters.urlParameters = { "$skiptoken": skipToken };
                 }
-            });
-        },
 
+                oNewModel.read(sPath, mParameters);
+            }
+
+            // First call
+            readData();
+        },
         onOpenBusinessPlaceDialog: function () {
             var oView = this.getView();
             if (!oView.byId("idBusinessPlaceDialog")) {
